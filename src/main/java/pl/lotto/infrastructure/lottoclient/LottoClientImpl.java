@@ -15,6 +15,7 @@ public class LottoClientImpl implements LottoClient {
 
     @Override
     public LocalDateTime getNextDrawingDate() {
+
         return null;
     }
 }
