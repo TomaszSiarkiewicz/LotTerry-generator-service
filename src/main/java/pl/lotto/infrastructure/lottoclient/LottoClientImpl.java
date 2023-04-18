@@ -15,7 +15,11 @@ public class LottoClientImpl implements LottoClient {
 
     @Override
     public LocalDateTime getNextDrawingDate() {
-
-        return null;
+        NextDrawResponseDto response = webClient.get()
+                .uri("/lottery/nextDraw")
+                .retrieve()
+                .bodyToMono(NextDrawResponseDto.class)
+                .block();
+        return response.nextDrawDate();
     }
 }
