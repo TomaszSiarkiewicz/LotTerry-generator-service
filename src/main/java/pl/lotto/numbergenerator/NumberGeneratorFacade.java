@@ -12,21 +12,18 @@ public class NumberGeneratorFacade {
     private final NumberGenerator numberGenerator;
     private final WinningNumbersRepository repository;
     private final LottoClient lottoClient;
-    private LocalDateTime drawingDate;
+
 
 
     public NumberGeneratorFacade(WinningNumbersRepository repository, LottoClient lottoClient) {
         this.lottoClient = lottoClient;
         this.repository = repository;
         numberGenerator = new NumberGenerator();
-        drawingDate = lottoClient.getNextDrawingDate();
     }
 
     public DrawingResultDto generateNumbersAndSave() {
         LocalDateTime nextDrawingDate = lottoClient.getNextDrawingDate();
-        drawingDate = nextDrawingDate;
         Optional<WinningNumbers> byDate = repository.findByDate(nextDrawingDate);
-
         if (byDate.isPresent()) {
             WinningNumbers winningNumbers1 = byDate.get();
             log.info("numbers was already generated for: " + winningNumbers1.date());
@@ -49,9 +46,5 @@ public class NumberGeneratorFacade {
         WinningNumbers winningNumbers = repository.findByDate(date)
                 .orElseThrow(() -> new WinningNumbersNotFoundException("winning number not found"));
         return new DrawingResultDto(winningNumbers.date(), winningNumbers.numbers());
-    }
-
-    public LocalDateTime getDrawingDate() {
-        return drawingDate;
     }
 }
