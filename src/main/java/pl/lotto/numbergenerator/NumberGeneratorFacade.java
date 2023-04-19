@@ -26,7 +26,7 @@ public class NumberGeneratorFacade {
         Optional<WinningNumbers> byDate = repository.findByDate(nextDrawingDate);
         if (byDate.isPresent()) {
             WinningNumbers winningNumbers1 = byDate.get();
-            log.info("numbers was already generated for: " + winningNumbers1.date());
+            log.info("numbers were already generated for: " + winningNumbers1.date());
             return new DrawingResultDto(winningNumbers1.date(), winningNumbers1.numbers());
         }
 

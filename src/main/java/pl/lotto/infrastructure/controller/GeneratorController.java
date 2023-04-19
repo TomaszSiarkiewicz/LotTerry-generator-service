@@ -1,6 +1,7 @@
 package pl.lotto.infrastructure.controller;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,8 +25,7 @@ public class GeneratorController {
     }
 
     @GetMapping("/winnum/{date}")
-    ResponseEntity<DrawingResultDto> result(@PathVariable("date") String dateNano) {
-        LocalDateTime date = LocalDateTime.ofInstant(Instant.ofEpochMilli(Long.parseLong(dateNano)), ZoneOffset.UTC);
+    ResponseEntity<DrawingResultDto> result(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
         try {
             DrawingResultDto drawingResultDto = numberGeneratorFacade.retrieveNumbersByDate(date);
             return ResponseEntity
